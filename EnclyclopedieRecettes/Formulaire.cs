@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace EnclyclopedieRecettes
 {
@@ -14,9 +15,12 @@ namespace EnclyclopedieRecettes
         public TextBox boxNomRecette;
         public TextBox boxTempsCuisson;
         public TextBox boxTempsPreparation;
+        public TextBox boxPhoto;
         public Label labelNomRecette;
         public Label labelTempsCuisson;
         public Label labelTempsPreparation;
+        public Label labelMinutes1;
+        public Label labelMinutes2;
         public Label labelIngredients;
         public Label labelEtapes;
         public List<TextBox> listeIngredients;
@@ -56,6 +60,21 @@ namespace EnclyclopedieRecettes
             this.Controls.Add(boxNomRecette);
             #endregion
 
+            #region photo
+            buttonAjoutPhoto = new Button();
+            buttonAjoutPhoto.Size = new Size(150, 30);
+            buttonAjoutPhoto.Location = new Point(520, 20);
+            buttonAjoutPhoto.Text = "Ajouter une photo";
+            this.Controls.Add(buttonAjoutPhoto);
+            buttonAjoutPhoto.Click += new EventHandler(buttonAjoutPhoto_Click);
+
+            boxPhoto = new TextBox();
+            boxPhoto.Size= new Size(150, 50);
+            boxPhoto.Location = new Point(680, 20);
+            boxPhoto.Text = "Path photo";
+            this.Controls.Add(boxPhoto);
+            #endregion
+
             #region temps
 
             labelTempsPreparation = new Label();
@@ -69,15 +88,25 @@ namespace EnclyclopedieRecettes
             boxTempsPreparation.Location = new Point(180, 65);
             this.Controls.Add(boxTempsPreparation);
 
+            labelMinutes1 = new Label();
+            labelMinutes1.Location = new Point(240, 65);
+            labelMinutes1.Text = "min";
+            this.Controls.Add(labelMinutes1);
+
             labelTempsCuisson = new Label();
             labelTempsCuisson.Text = "Temps de cuisson";
-            labelTempsCuisson.Location = new Point(300, 65);
+            labelTempsCuisson.Location = new Point(520, 65);
             this.Controls.Add(labelTempsCuisson);
 
             boxTempsCuisson = new TextBox();
             boxTempsCuisson.Size = new Size(50, 50);
-            boxTempsCuisson.Location = new Point(400, 65);
+            boxTempsCuisson.Location = new Point(680, 65);
             this.Controls.Add(boxTempsCuisson);
+
+            labelMinutes2 = new Label();
+            labelMinutes2.Location = new Point(740, 65);
+            labelMinutes2.Text = "min";
+            this.Controls.Add(labelMinutes2);
             #endregion
 
 
@@ -187,10 +216,37 @@ namespace EnclyclopedieRecettes
             this.Controls.Add(listeEtapes[listeEtapes.Count - 1]);
         }
 
+        private void buttonAjoutPhoto_Click(object sender, System.EventArgs e)
+        {
+            string path = getFileName("Sélectionnez la photo à importer","Fichier PNG (*.png)|*.png","C:\\");//rajouter plus de types de fichiers
+            boxPhoto.Text = path;
+        }
+
         private void Formulaire_Load(object sender, EventArgs e)
         {
             this.Refresh();
             Application.DoEvents();
         }
+
+        static private string getFileName(string titre, string filtre, string path)
+        {
+            string selectedFile = "";
+            OpenFileDialog file = new OpenFileDialog();
+            Form form = new Form();
+            form.TopMost = true;
+            file.Title = titre;
+            file.InitialDirectory = path;
+            file.Filter = filtre;
+            file.FilterIndex = 1;
+            file.RestoreDirectory = true;
+            if (file.ShowDialog(form) == DialogResult.OK)
+            {
+                selectedFile = file.FileName;
+            }
+
+            return selectedFile;
+        }
     }
+
+   
 }
