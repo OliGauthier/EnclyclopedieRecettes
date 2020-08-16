@@ -36,12 +36,44 @@ namespace EnclyclopedieRecettes
             set { categories = value; }
         }
 
+        private int tempsCuisson; //en minutes
+        public int TempsCuisson
+        { 
+            get { return tempsCuisson; }
+            set { tempsCuisson = value; }
+        }
+
+        private int tempsPreparation; //en minutes
+        public int TempsPreparation
+        {
+            get { return tempsPreparation; }
+            set { tempsPreparation = value; }
+        }
+
+        private bool seCongele;
+        public bool SeCongele
+        {
+            get { return seCongele; }
+            set { seCongele = value; }
+        }
+
         public Recette(string nom, List<Tuple<string, int, int>> ingredients, List<string> etapes, List<string> categories)
         {
             this.nomRecette = nom;
             this.ingredients = ingredients;
             this.etapes = etapes;
             this.categories = categories;
+        }
+
+        public Recette(string nom, List<Tuple<string, int, int>> ingredients, List<string> etapes, List<string> categories, int tempsCuisson, int tempsPreparation, bool seCongele)
+        {
+            this.nomRecette = nom;
+            this.ingredients = ingredients;
+            this.etapes = etapes;
+            this.categories = categories;
+            this.tempsCuisson = tempsCuisson;
+            this.TempsPreparation = TempsPreparation;
+            this.seCongele = seCongele;
         }
 
         public void ajouterIngredient(Tuple<string, int, int> ingredient)
